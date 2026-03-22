@@ -50,7 +50,7 @@ vercel --prod
 
 ---
 
-## Shared Articles (Persistent Storage)
+## Shared Articles (Persistent Storage)...
 
 Articles are stored using Claude's `window.storage` API with `shared: true`, which means:
 - Anyone who publishes sees their article on all visitors' feeds
