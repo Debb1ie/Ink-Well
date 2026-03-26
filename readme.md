@@ -1,7 +1,7 @@
 # Inkwell — Content Platform
 
 A Medium-like platform for adult writers and readers. Features:
-- 🌙 Dark/Light mode (auto-detects system preference)
+-  Dark/Light mode (auto-detects system preference)
 -  Age verification gate (18+)
    Rich writing editor with Markdown-like formatting
    Clean reading experience
@@ -50,7 +50,7 @@ vercel --prod
 
 ---
 
-## Shared Articles (Persistent Storage)...
+## Shared Articles (Persistent Storage)
 
 Articles are stored using Claude's `window.storage` API with `shared: true`, which means:
 - Anyone who publishes sees their article on all visitors' feeds
