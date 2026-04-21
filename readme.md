@@ -10,7 +10,7 @@ A Medium-like platform for adult writers and readers. Features:
 
 ---
 
-## Deploy to Vercel (5 minutes)
+## Deploy to Vercel (5 minutes)!
 
 ### Option 1: Use the `.jsx` directly in Claude.ai (Artifacts)
 Paste the `.jsx` file contents directly into a Claude artifact. Works immediately.
