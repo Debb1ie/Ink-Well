@@ -15,7 +15,7 @@ A Medium-like platform for adult writers and readers. Features:
 ### Option 1: Use the `.jsx` directly in Claude.ai (Artifacts)
 Paste the `.jsx` file contents directly into a Claude artifact. Works immediately.
 
-### Option 2: Full Vercel Deploy
+### Option 2: Full Vercel Deploy.
 
 1. **Create a new React project:**
 ```bash
