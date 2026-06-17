@@ -55,7 +55,7 @@ vercel --prod
 Articles are stored using Claude's `window.storage` API with `shared: true`, which means:
 - Anyone who publishes sees their article on all visitors' feeds
 - No backend needed — it's handled by Anthropic's infrastructure
-- Works out of the box in Claude.ai artifacts
+- Works out of the box in Claude.ai artifacts.
 
 **Note:** If deploying outside Claude.ai, replace the `window.storage` calls with a backend (Supabase, Firebase, etc.):
 
