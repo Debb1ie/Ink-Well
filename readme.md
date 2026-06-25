@@ -6,7 +6,7 @@ A Medium-like platform for adult writers and readers. Features:
    Rich writing editor with Markdown-like formatting.
    Clean reading experience.
    - I writing assistant (Claude-powered).
-   -  Shared articles — published by anyone, visible to all.
+   -  Shared articles — published by anyone, visible to all
 
 ---
 
