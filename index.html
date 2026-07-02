@@ -1,0 +1,1058 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>Inkwell — Where Ideas Find Their Voice</title>
+<meta name="description" content="Inkwell is an open platform for writers, researchers, and thinkers to publish essays, share discoveries, and document journeys." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+<style>
+:root[data-theme="light"]{
+  --bg:#FDFCF9; --bg-alt:#F7F5F0; --surface:#FFFFFF; --surface-alt:#F2EFE9;
+  --border:#E5E0D8; --border-light:#EDE9E2;
+  --text:#1C1917; --text-sub:#44403C; --text-muted:#78716C; --text-light:#A8A29E;
+  --accent:#2563EB; --accent-warm:#C2410C; --accent-gold:#B45309;
+  --nav:rgba(253,252,249,0.94);
+  --hero-grad:linear-gradient(135deg,#FDFCF9 0%,#F0EBE0 50%,#E8DFD0 100%);
+  --tag:#EDE9E2; --tag-text:#57534E;
+  --shadow:0 1px 4px rgba(0,0,0,0.06); --shadow-md:0 4px 16px rgba(0,0,0,0.08); --shadow-lg:0 12px 48px rgba(0,0,0,0.10);
+  --err-bg:#FEF2F2; --err-border:#FECACA; --err-text:#DC2626;
+}
+:root[data-theme="dark"]{
+  --bg:#0C0B09; --bg-alt:#141210; --surface:#181614; --surface-alt:#201E1B;
+  --border:#2A2724; --border-light:#242120;
+  --text:#F5F3EE; --text-sub:#C8C3BB; --text-muted:#8A8480; --text-light:#5C5852;
+  --accent:#60A5FA; --accent-warm:#F97316; --accent-gold:#FBBF24;
+  --nav:rgba(12,11,9,0.95);
+  --hero-grad:linear-gradient(135deg,#0C0B09 0%,#1A1612 50%,#1F1A13 100%);
+  --tag:#242120; --tag-text:#8A8480;
+  --shadow:0 1px 4px rgba(0,0,0,0.3); --shadow-md:0 4px 16px rgba(0,0,0,0.4); --shadow-lg:0 12px 48px rgba(0,0,0,0.5);
+  --err-bg:#2A1414; --err-border:#4A1F1F; --err-text:#F87171;
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  font-family:'Lato',sans-serif; background:var(--bg); color:var(--text);
+  overflow-x:hidden; min-height:100vh; transition:background .3s,color .3s;
+  -webkit-font-smoothing:antialiased;
+}
+h1,h2,h3{margin:0;}
+button,input,textarea,select{font-family:'Lato',sans-serif;}
+input::placeholder, textarea::placeholder{color:var(--text-light);}
+select option{background:var(--surface); color:var(--text);}
+a{color:inherit; text-decoration:none;}
+::-webkit-scrollbar{width:6px;} ::-webkit-scrollbar-track{background:transparent;}
+::-webkit-scrollbar-thumb{background:var(--border); border-radius:3px;}
+:focus-visible{outline:2px solid var(--accent); outline-offset:2px;}
+@media (prefers-reduced-motion: reduce){*{animation-duration:.001ms !important; transition-duration:.001ms !important;}}
+
+.serif{font-family:'Playfair Display',serif;}
+.em{font-style:italic;}
+[data-page]{display:none;} [data-page].active{display:block;}
+[data-view]{display:none;} [data-view].active{display:block;}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(28px);}to{opacity:1;transform:translateY(0);}}
+@keyframes fadeIn{from{opacity:0;}to{opacity:1;}}
+@keyframes float{0%,100%{transform:translateY(0);}50%{transform:translateY(-8px);}}
+.fade-up{animation:fadeUp .7s cubic-bezier(.22,1,.36,1) both;}
+.fade-up-2{animation:fadeUp .7s .12s cubic-bezier(.22,1,.36,1) both;}
+.fade-up-3{animation:fadeUp .7s .24s cubic-bezier(.22,1,.36,1) both;}
+.fade-up-4{animation:fadeUp .7s .36s cubic-bezier(.22,1,.36,1) both;}
+.fade-up-5{animation:fadeUp .7s .48s cubic-bezier(.22,1,.36,1) both;}
+.fade-in{animation:fadeIn .5s ease both;}
+.float{animation:float 3.4s ease-in-out infinite;}
+
+/* ---------- NAV ---------- */
+.landing-nav, .app-nav{
+  position:sticky; top:0; z-index:200; background:var(--nav);
+  backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px);
+  border-bottom:1px solid var(--border);
+  display:flex; align-items:center; justify-content:space-between;
+  padding:0 clamp(1rem,4vw,3rem); height:64px;
+}
+.app-nav{height:60px; padding:0 clamp(1rem,3vw,2rem);}
+.brand{font-family:'Playfair Display',serif; font-size:1.5rem; font-weight:700; color:var(--accent); letter-spacing:-0.02em; cursor:pointer; background:none; border:none;}
+.app-nav .brand{font-size:1.4rem;}
+.nav-actions{display:flex; gap:.5rem; align-items:center;}
+.icon-toggle{width:38px; height:38px; border-radius:50%; border:1px solid var(--border); background:var(--surface-alt); color:var(--text); cursor:pointer; font-size:1rem; display:flex; align-items:center; justify-content:center; flex-shrink:0;}
+.btn-outline{padding:.5rem 1.25rem; background:transparent; border:1px solid var(--border); border-radius:8px; color:var(--text-muted); font-weight:700; font-size:.85rem; cursor:pointer; letter-spacing:.03em; white-space:nowrap;}
+.btn-solid{padding:.5rem 1.25rem; background:var(--accent); border:none; border-radius:8px; color:#fff; font-weight:700; font-size:.85rem; cursor:pointer; letter-spacing:.03em; white-space:nowrap;}
+.app-nav-tabs{display:flex; gap:.375rem; align-items:center;}
+.app-tab{padding:.4rem .875rem; border-radius:7px; border:1px solid transparent; background:transparent; color:var(--text-muted); font-weight:700; font-size:.85rem; cursor:pointer; letter-spacing:.02em;}
+.app-tab.active{border:1px solid var(--border); background:var(--surface-alt); color:var(--text);}
+
+/* ---------- HERO ---------- */
+.hero{min-height:100vh; background:var(--hero-grad); display:flex; align-items:center; justify-content:center; padding:7rem 1.25rem 4rem; position:relative; overflow:hidden;}
+.hero-blob-a{position:absolute; top:15%; right:8%; width:360px; height:360px; border-radius:50%; background:radial-gradient(circle, color-mix(in srgb, var(--accent) 6%, transparent) 0%, transparent 70%); pointer-events:none;}
+.hero-blob-b{position:absolute; bottom:10%; left:5%; width:280px; height:280px; border-radius:50%; background:radial-gradient(circle, color-mix(in srgb, var(--accent-gold) 5%, transparent) 0%, transparent 70%); pointer-events:none;}
+.hero-dot{position:absolute; width:5px; height:5px; border-radius:50%; background:var(--border); opacity:.6;}
+.hero-inner{max-width:860px; width:100%; text-align:center; position:relative; z-index:1;}
+.hero-badge{display:inline-flex; align-items:center; gap:.5rem; background:color-mix(in srgb, var(--accent) 12%, transparent); border:1px solid color-mix(in srgb, var(--accent) 30%, transparent); border-radius:100px; padding:.4rem 1rem; margin-bottom:2rem;}
+.hero-badge .dot{width:6px; height:6px; border-radius:50%; background:var(--accent);}
+.hero-badge span.txt{color:var(--accent); font-size:.78rem; font-weight:700; letter-spacing:.08em; text-transform:uppercase;}
+.hero h1{font-family:'Playfair Display',serif; font-size:clamp(2.4rem,7vw,5.5rem); font-weight:700; color:var(--text); line-height:1.1; letter-spacing:-0.03em; margin-bottom:1.5rem;}
+.hero h1 em{color:var(--accent-warm); font-style:italic;}
+.hero .lead{font-size:clamp(1rem,2.5vw,1.3rem); color:var(--text-muted); line-height:1.75; max-width:620px; margin:0 auto 2.5rem; font-weight:300;}
+.hero-actions{display:flex; gap:1rem; justify-content:center; flex-wrap:wrap;}
+.btn-primary-lg{padding:1rem 2.25rem; background:var(--accent); color:#fff; border:none; border-radius:10px; cursor:pointer; font-weight:700; font-size:1rem; letter-spacing:.02em; box-shadow:0 4px 20px color-mix(in srgb, var(--accent) 40%, transparent); transition:transform .2s, box-shadow .2s;}
+.btn-primary-lg:hover{transform:translateY(-2px); box-shadow:0 8px 28px color-mix(in srgb, var(--accent) 50%, transparent);}
+.btn-ghost-lg{padding:1rem 2.25rem; background:transparent; color:var(--text-sub); border:1.5px solid var(--border); border-radius:10px; cursor:pointer; font-weight:700; font-size:1rem; letter-spacing:.02em; transition:all .2s;}
+.btn-ghost-lg:hover{border-color:var(--accent); color:var(--accent);}
+.stats-bar{display:flex; gap:0; justify-content:center; margin-top:4rem; flex-wrap:wrap;}
+.stats-bar .stat{padding:1.1rem 2rem; text-align:center;}
+.stats-bar .stat:not(:first-child){border-left:1px solid var(--border);}
+.stats-bar .num{font-family:'Playfair Display',serif; font-size:1.9rem; font-weight:700; letter-spacing:-.02em;}
+.stats-bar .lbl{color:var(--text-light); font-size:.76rem; letter-spacing:.05em; text-transform:uppercase; font-weight:700; margin-top:.2rem;}
+
+/* ---------- ABOUT ---------- */
+.section-pad{padding:5rem 1.25rem;}
+.section-wrap{max-width:1100px; margin:0 auto;}
+.about-grid{display:grid; grid-template-columns:1fr 1fr; gap:4rem; align-items:center;}
+.eyebrow{display:inline-block; border-radius:6px; padding:.3rem .75rem; font-size:.75rem; font-weight:700; letter-spacing:.08em; text-transform:uppercase; margin-bottom:1.25rem;}
+.eyebrow.gold{background:color-mix(in srgb, var(--accent-gold) 15%, transparent); border:1px solid color-mix(in srgb, var(--accent-gold) 30%, transparent); color:var(--accent-gold);}
+.eyebrow.blue{background:color-mix(in srgb, var(--accent) 12%, transparent); border:1px solid color-mix(in srgb, var(--accent) 25%, transparent); color:var(--accent);}
+.section-h2{font-family:'Playfair Display',serif; font-size:clamp(1.8rem,4vw,3rem); font-weight:700; color:var(--text); line-height:1.2; letter-spacing:-.02em; margin-bottom:1.25rem;}
+.about-grid p{color:var(--text-muted); font-size:1rem; line-height:1.8; margin-bottom:1.1rem; font-weight:300;}
+.check-list{display:flex; flex-direction:column; gap:.85rem; margin-top:1.5rem;}
+.check-item{display:flex; gap:.75rem; align-items:center;}
+.check-dot{width:20px; height:20px; border-radius:50%; background:color-mix(in srgb, var(--accent) 15%, transparent); display:flex; align-items:center; justify-content:center; flex-shrink:0; color:var(--accent); font-size:.65rem;}
+.check-item span.txt{color:var(--text-sub); font-size:.92rem;}
+.mock-card{background:var(--surface); border-radius:16px; border:1px solid var(--border); padding:1.75rem; box-shadow:var(--shadow-lg); position:relative; z-index:1;}
+.mock-dots{display:flex; align-items:center; gap:.5rem; margin-bottom:1.25rem;}
+.mock-dots span{width:11px; height:11px; border-radius:50%;}
+.mock-line{height:8px; margin-bottom:.5rem; border-radius:4px; background:var(--text);}
+.mock-publish{margin-top:1.25rem; display:flex; justify-content:flex-end;}
+.mock-publish span{padding:.5rem 1.1rem; background:var(--accent); border-radius:6px; color:#fff; font-size:.78rem; font-weight:700;}
+.float-card-1{position:absolute; top:1.25rem; right:-1.25rem; background:var(--surface); border-radius:12px; border:1px solid var(--border); padding:.9rem 1.1rem; box-shadow:var(--shadow-md); z-index:2; min-width:150px;}
+.float-card-2{position:absolute; bottom:.75rem; left:-1.25rem; background:color-mix(in srgb, var(--accent-gold) 15%, transparent); border:1px solid color-mix(in srgb, var(--accent-gold) 30%, transparent); border-radius:10px; padding:.8rem 1.1rem; z-index:2;}
+.about-visual{position:relative;}
+
+/* ---------- FEATURES ---------- */
+.features-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:1.25rem;}
+.feature-card{background:var(--bg); border:1px solid var(--border); border-radius:14px; padding:1.75rem; transition:all .25s cubic-bezier(.22,1,.36,1);}
+.feature-card:hover{background:var(--surface); border-color:color-mix(in srgb, var(--accent) 30%, transparent); transform:translateY(-4px); box-shadow:var(--shadow-md);}
+.feature-icon{width:44px; height:44px; border-radius:10px; background:color-mix(in srgb, var(--accent) 12%, transparent); display:flex; align-items:center; justify-content:center; font-size:1.2rem; margin-bottom:1.1rem; color:var(--accent);}
+.feature-card h3{font-family:'Playfair Display',serif; font-size:1.1rem; font-weight:700; color:var(--text); margin-bottom:.55rem;}
+.feature-card p{color:var(--text-muted); font-size:.88rem; line-height:1.6; font-weight:300; margin:0;}
+
+/* ---------- CATEGORIES ---------- */
+.cat-pills{display:flex; flex-wrap:wrap; gap:.7rem; justify-content:center;}
+.cat-pill{display:flex; align-items:center; gap:.5rem; padding:.6rem 1.2rem; background:var(--surface-alt); border:1px solid var(--border); border-radius:100px; cursor:pointer; color:var(--text-sub); font-size:.88rem; transition:all .2s;}
+.cat-pill:hover{border-color:var(--accent); color:var(--accent); background:color-mix(in srgb, var(--accent) 8%, transparent);}
+
+/* ---------- CTA ---------- */
+.cta-section{padding:5rem 1.25rem; background:linear-gradient(135deg, var(--accent) 0%, #1D4ED8 100%); position:relative; overflow:hidden;}
+.cta-inner{max-width:700px; margin:0 auto; text-align:center; position:relative;}
+.cta-inner h2{font-family:'Playfair Display',serif; font-size:clamp(1.8rem,4vw,3.1rem); font-weight:700; color:#fff; line-height:1.15; letter-spacing:-.02em; margin-bottom:1.15rem;}
+.cta-inner p{color:rgba(255,255,255,.82); font-size:1.05rem; line-height:1.75; margin-bottom:2.25rem; font-weight:300;}
+.cta-btn{padding:1rem 2.75rem; background:#fff; border:none; border-radius:10px; cursor:pointer; font-weight:700; font-size:1rem; letter-spacing:.02em; box-shadow:0 8px 32px rgba(0,0,0,.2); transition:all .2s; color:var(--accent);}
+.cta-btn:hover{transform:translateY(-2px); box-shadow:0 12px 40px rgba(0,0,0,.25);}
+
+/* ---------- FOOTER ---------- */
+.site-footer{background:var(--bg); border-top:1px solid var(--border); padding:2.5rem 1.25rem; text-align:center;}
+.site-footer .brand{font-size:1.4rem; margin-bottom:.6rem; cursor:default;}
+.site-footer p{color:var(--text-light); font-size:.82rem; margin-bottom:.85rem;}
+.footer-links{display:flex; gap:1.75rem; justify-content:center; flex-wrap:wrap;}
+.footer-links span{color:var(--text-light); font-size:.82rem; cursor:pointer;}
+.app-footer{border-top:1px solid var(--border); padding:2rem 1.25rem; text-align:center; color:var(--text-light); font-size:.8rem; margin-top:3rem;}
+.app-footer .brand-word{font-family:'Playfair Display',serif; color:var(--text-muted); font-weight:700;}
+
+/* ---------- HOME ---------- */
+.home-wrap{max-width:1140px; margin:0 auto; padding:0 1.25rem 4rem;}
+.search-row{padding:2rem 0 0; display:flex; gap:1rem; align-items:center; flex-wrap:wrap;}
+.search-box{position:relative; flex:1; min-width:220px; max-width:340px;}
+.search-box .ico{position:absolute; left:.875rem; top:50%; transform:translateY(-50%); color:var(--text-light); font-size:.9rem;}
+.search-input{width:100%; padding:.6rem .875rem .6rem 2.25rem; background:var(--surface-alt); border:1px solid var(--border); border-radius:8px; color:var(--text); font-size:.875rem; outline:none;}
+.tag-row{display:flex; gap:.5rem; padding:1.25rem 0 0; overflow-x:auto; scrollbar-width:none;}
+.tag-row::-webkit-scrollbar{display:none;}
+.tag-chip{padding:.4rem 1rem; border-radius:100px; border:1px solid var(--border); background:transparent; color:var(--text-muted); font-weight:700; font-size:.8rem; cursor:pointer; white-space:nowrap; transition:all .15s; flex-shrink:0;}
+.tag-chip.active{border:1.5px solid var(--accent); background:color-mix(in srgb, var(--accent) 10%, transparent); color:var(--accent);}
+.home-grid{display:grid; grid-template-columns:1fr min(300px,28%); gap:3rem;}
+.home-main{padding-top:2rem; min-width:0;}
+.home-aside{padding-top:2rem;}
+.aside-sticky{position:sticky; top:76px;}
+.side-card{background:var(--surface-alt); border-radius:12px; padding:1.5rem; margin-bottom:1.5rem; border:1px solid var(--border);}
+.side-card h3{font-family:'Playfair Display',serif; font-size:1.05rem; font-weight:700; color:var(--text); margin-bottom:.75rem;}
+.side-card h3.plain{font-family:'Lato',sans-serif; font-size:.75rem; font-weight:700; color:var(--text-muted); letter-spacing:.06em; text-transform:uppercase;}
+.side-card p{color:var(--text-muted); font-size:.875rem; line-height:1.65; font-weight:300; margin-bottom:1rem;}
+.side-btn{width:100%; padding:.625rem; background:var(--accent); color:#fff; border:none; border-radius:7px; cursor:pointer; font-weight:700; font-size:.875rem;}
+.principle-row{display:flex; gap:.5rem; margin-bottom:.6rem; font-size:.85rem; color:var(--text-muted); align-items:flex-start;}
+.principle-row .arrow{color:var(--accent); flex-shrink:0;}
+.trend-tags{display:flex; flex-wrap:wrap; gap:.4rem;}
+.trend-tag{background:var(--tag); color:var(--tag-text); padding:.25rem .625rem; border-radius:100px; font-size:.775rem; cursor:pointer;}
+
+.featured-card{background:var(--surface); border-radius:16px; border:1px solid var(--border); padding:2rem; margin-bottom:.5rem; cursor:pointer; box-shadow:var(--shadow); transition:all .25s; position:relative; overflow:hidden;}
+.featured-card:hover{box-shadow:var(--shadow-md); border-color:color-mix(in srgb, var(--accent) 30%, transparent);}
+.featured-glow{position:absolute; top:0; right:0; width:200px; height:200px; background:radial-gradient(circle, color-mix(in srgb, var(--accent) 8%, transparent) 0%, transparent 70%); pointer-events:none;}
+.featured-card h2{font-family:'Playfair Display',serif; font-size:1.5rem; font-weight:700; color:var(--text); margin:0 0 .7rem; line-height:1.25; letter-spacing:-.015em;}
+.featured-card .sub{color:var(--text-muted); font-size:.98rem; line-height:1.6; margin:0 0 1.15rem; font-weight:300; display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical; overflow:hidden;}
+.featured-meta{display:flex; align-items:center; gap:.6rem; flex-wrap:wrap;}
+.avatar{border-radius:50%; background:linear-gradient(135deg, var(--accent), #6366F1); display:flex; align-items:center; justify-content:center; color:#fff; font-weight:700; font-family:'Playfair Display',serif; flex-shrink:0;}
+
+.article-card{padding:1.75rem 0; border-bottom:1px solid var(--border-light);}
+.article-card .meta-row{display:flex; align-items:center; gap:.6rem; margin-bottom:.85rem; flex-wrap:wrap;}
+.article-card h2{font-family:'Playfair Display',serif; font-size:1.15rem; font-weight:700; color:var(--text); margin:0 0 .5rem; line-height:1.35; letter-spacing:-.01em; cursor:pointer;}
+.article-card h2:hover{color:var(--accent);}
+.article-card .sub{color:var(--text-muted); font-size:.9rem; line-height:1.55; margin:0 0 1rem; font-weight:300; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden;}
+.tag-list{display:flex; align-items:center; gap:.6rem; flex-wrap:wrap;}
+.small-tag{background:var(--tag); color:var(--tag-text); padding:.2rem .625rem; border-radius:100px; font-size:.76rem; font-weight:700;}
+.card-footer{display:flex; align-items:center; gap:1.4rem; margin-top:1rem;}
+.like-btn{background:none; border:none; cursor:pointer; font-size:.85rem; display:flex; align-items:center; gap:.3rem; padding:0; color:var(--text-light);}
+.like-btn.liked{color:var(--accent-warm);}
+.views-lbl{color:var(--text-light); font-size:.85rem;}
+.read-link{margin-left:auto; background:none; border:none; cursor:pointer; color:var(--accent); font-size:.85rem; font-weight:700; display:flex; align-items:center; gap:.3rem;}
+.empty-state{padding:4rem 0; text-align:center; color:var(--text-muted);}
+.empty-state .glyph{font-size:2.3rem; margin-bottom:1rem;}
+.empty-state .t1{font-family:'Playfair Display',serif; font-size:1.15rem; margin-bottom:.5rem; color:var(--text);}
+
+/* ---------- ARTICLE VIEW ---------- */
+.article-wrap{max-width:700px; margin:0 auto; padding:2.25rem 1.25rem 4rem;}
+.back-btn{background:none; border:none; cursor:pointer; color:var(--text-muted); font-size:.875rem; padding:0 0 2rem; display:flex; align-items:center; gap:.4rem; font-weight:700;}
+.article-title{font-family:'Playfair Display',serif; font-size:clamp(1.7rem,5vw,2.6rem); font-weight:700; color:var(--text); margin:0 0 1rem; line-height:1.2; letter-spacing:-.025em;}
+.article-sub{font-size:clamp(1.02rem,2.5vw,1.15rem); color:var(--text-muted); margin:0 0 1.75rem; line-height:1.55; font-weight:300; font-style:italic;}
+.author-row{display:flex; align-items:center; gap:.85rem; padding:1.2rem 0; border-top:1px solid var(--border); border-bottom:1px solid var(--border); margin-bottom:2.5rem; flex-wrap:wrap;}
+.author-name{color:var(--text); font-weight:700; font-size:.95rem;}
+.author-meta{color:var(--text-light); font-size:.82rem;}
+.like-pill{background:none; border:1px solid var(--border); border-radius:8px; padding:.4rem .875rem; cursor:pointer; color:var(--text-muted); font-size:.85rem; display:flex; gap:.3rem; align-items:center;}
+.like-pill.liked{background:color-mix(in srgb, var(--accent-warm) 12%, transparent); border-color:var(--accent-warm); color:var(--accent-warm);}
+.article-h1{font-family:'Playfair Display',serif; font-size:1.7rem; font-weight:700; color:var(--text); margin:2.25rem 0 .9rem;}
+.article-h2{font-family:'Playfair Display',serif; font-size:1.35rem; font-weight:700; color:var(--text); margin:2.25rem 0 .9rem; letter-spacing:-.01em;}
+.article-p{font-size:clamp(1rem,2vw,1.08rem); line-height:1.9; color:var(--text-sub); margin:0 0 1.5rem; font-weight:300;}
+.article-tags{display:flex; flex-wrap:wrap; gap:.5rem; margin-top:2.25rem; padding-top:1.75rem; border-top:1px solid var(--border);}
+.article-tags span{background:var(--tag); color:var(--tag-text); padding:.3rem .75rem; border-radius:100px; font-size:.8rem;}
+.cta-box{margin-top:3rem; background:var(--surface-alt); border-radius:14px; padding:2.25rem 1.5rem; text-align:center; border:1px solid var(--border);}
+.cta-box h3{font-family:'Playfair Display',serif; font-size:1.2rem; font-weight:700; color:var(--text); margin-bottom:.7rem;}
+.cta-box p{color:var(--text-muted); font-size:.9rem; margin-bottom:1.3rem; font-weight:300;}
+.cta-box button{padding:.65rem 1.6rem; background:var(--accent); color:#fff; border:none; border-radius:8px; cursor:pointer; font-weight:700; font-size:.88rem;}
+
+/* ---------- WRITE VIEW ---------- */
+.write-wrap{max-width:740px; margin:0 auto; padding:2.5rem 1.25rem 4rem;}
+.write-header h1{font-family:'Playfair Display',serif; font-size:1.85rem; font-weight:700; color:var(--text); margin-bottom:.4rem;}
+.write-header p{color:var(--text-muted); font-size:.88rem; font-weight:300; margin-bottom:2rem;}
+.write-tip{background:color-mix(in srgb, var(--accent) 8%, transparent); border:1px solid color-mix(in srgb, var(--accent) 20%, transparent); border-radius:8px; padding:.7rem 1rem; margin-bottom:1.75rem; font-size:.8rem; color:var(--text-muted); display:flex; gap:.5rem; align-items:center; flex-wrap:wrap;}
+.write-tip code{background:var(--surface-alt); padding:0 4px; border-radius:3px; color:var(--accent);}
+.field-input{width:100%; background:transparent; border:none; border-bottom:1px solid var(--border); outline:none; color:var(--text); font-size:.95rem; padding:.8rem 0; margin-bottom:1.4rem; box-sizing:border-box;}
+.field-title{font-family:'Playfair Display',serif; font-size:clamp(1.4rem,4vw,2rem); font-weight:700; line-height:1.2;}
+.field-sub{font-style:italic; color:var(--text-muted);}
+.field-author{color:var(--text-muted);}
+.field-select{cursor:pointer; appearance:none; -webkit-appearance:none; background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='%2378716C'%3E%3Cpath d='M5 7l5 5 5-5z'/%3E%3C/svg%3E"); background-repeat:no-repeat; background-position:right center;}
+.field-textarea{line-height:1.85; min-height:340px; resize:vertical; font-size:.95rem;}
+.field-tags{font-size:.875rem; color:var(--text-muted);}
+.error-box{background:var(--err-bg); border:1px solid var(--err-border); border-radius:8px; padding:.75rem 1rem; margin-bottom:1.25rem; color:var(--err-text); font-size:.875rem;}
+.ai-toggle{background:none; border:1px solid var(--border); border-radius:8px; padding:.5rem 1rem; cursor:pointer; color:var(--text-muted); font-size:.85rem; font-weight:700; display:flex; align-items:center; gap:.5rem;}
+.ai-toggle.open{background:var(--surface-alt);}
+.ai-panel{margin-top:.75rem; background:var(--surface-alt); border-radius:10px; padding:1.25rem; border:1px solid var(--border);}
+.ai-panel p{color:var(--text-muted); font-size:.82rem; margin-bottom:.875rem; font-weight:300;}
+.ai-row{display:flex; gap:.625rem; flex-wrap:wrap;}
+.ai-input{flex:1; min-width:180px; padding:.65rem 1rem; background:var(--surface); border:1px solid var(--border); border-radius:7px; color:var(--text); font-size:.875rem; outline:none;}
+.ai-ask-btn{padding:.65rem 1.25rem; background:var(--accent); color:#fff; border:none; border-radius:7px; cursor:pointer; font-weight:700; font-size:.875rem;}
+.write-actions{display:flex; align-items:center; justify-content:space-between; gap:1rem; flex-wrap:wrap; margin-top:1.5rem;}
+.word-count{color:var(--text-light); font-size:.8rem;}
+.publish-btn{padding:.875rem 2.25rem; background:var(--accent); color:#fff; border:none; border-radius:9px; cursor:pointer; font-weight:700; font-size:1rem; letter-spacing:.02em; box-shadow:0 4px 16px color-mix(in srgb, var(--accent) 30%, transparent); transition:all .2s;}
+.publish-btn:hover{transform:translateY(-1px);}
+.success-box{background:color-mix(in srgb, #10B981 12%, transparent); border:1px solid color-mix(in srgb, #10B981 30%, transparent); border-radius:8px; padding:.75rem 1rem; margin-bottom:1.25rem; color:#10B981; font-size:.875rem;}
+
+/* ---------- TOAST ---------- */
+.toast{position:fixed; bottom:24px; left:50%; transform:translateX(-50%); background:var(--surface); border:1px solid var(--border); color:var(--text); padding:.7rem 1.25rem; border-radius:10px; font-size:.85rem; z-index:500; box-shadow:var(--shadow-lg); opacity:0; transition:opacity .25s;}
+.toast.show{opacity:1;}
+
+/* ---------- RESPONSIVE ---------- */
+@media (max-width:900px){
+  .about-grid{grid-template-columns:1fr; gap:3rem;}
+  .about-visual{order:-1;}
+  .float-card-1, .float-card-2{display:none;}
+}
+@media (max-width:780px){
+  .home-grid{grid-template-columns:1fr;}
+  .home-aside{display:none;}
+}
+@media (max-width:640px){
+  .app-nav-tabs{gap:.2rem;}
+  .app-tab{padding:.4rem .6rem; font-size:.8rem;}
+  .stats-bar .stat{padding:1rem 1.4rem;}
+  .section-pad{padding:3.5rem 1rem;}
+  .hero{padding-top:6rem;}
+  .featured-card, .card{padding:1.4rem;}
+  .write-actions{flex-direction:column; align-items:stretch;}
+  .publish-btn{width:100%;}
+}
+@media (max-width:420px){
+  .stats-bar .stat{padding:.9rem 1rem;}
+  .stats-bar .num{font-size:1.5rem;}
+}
+</style>
+</head>
+<body>
+
+<div class="toast" id="toast"></div>
+
+<!-- ============ LANDING ============ -->
+<div data-page="landing" class="active">
+  <nav class="landing-nav">
+    <button class="brand" onclick="goLanding()">Inkwell</button>
+    <div class="nav-actions">
+      <button class="icon-toggle" id="landingThemeBtn" onclick="toggleTheme()"></button>
+      <button class="btn-outline" onclick="enterApp()">Sign In</button>
+      <button class="btn-solid" onclick="enterApp()">Start Writing</button>
+    </div>
+  </nav>
+
+  <section class="hero">
+    <div class="hero-blob-a"></div>
+    <div class="hero-blob-b"></div>
+    <div id="heroDots"></div>
+    <div class="hero-inner">
+      <div class="hero-badge fade-up">
+        <span class="dot"></span>
+        <span class="txt">The Platform for Thoughtful Writing</span>
+      </div>
+      <h1 class="fade-up-2">Where Ideas Find<br><em>Their Voice</em></h1>
+      <p class="lead fade-up-3">Inkwell is an open platform for writers, researchers, and thinkers. Publish essays, share discoveries, document journeys — and reach readers who care about ideas as much as you do.</p>
+      <div class="hero-actions fade-up-4">
+        <button class="btn-primary-lg" onclick="enterApp()">Start Writing Free →</button>
+        <button class="btn-ghost-lg" onclick="enterApp()">Explore Stories</button>
+      </div>
+      <div class="stats-bar fade-up-5">
+        <div class="stat"><div class="num">10K+</div><div class="lbl">Stories Published</div></div>
+        <div class="stat"><div class="num">48K+</div><div class="lbl">Monthly Readers</div></div>
+        <div class="stat"><div class="num">3.2M</div><div class="lbl">Words Written</div></div>
+        <div class="stat"><div class="num">190+</div><div class="lbl">Countries</div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-pad">
+    <div class="section-wrap about-grid">
+      <div>
+        <div class="eyebrow gold">Our Purpose</div>
+        <h2 class="section-h2">Built for people who think in paragraphs</h2>
+        <p>The internet has abundant places for quick takes. Inkwell exists for everything else — the long essay that wrestles with a difficult idea, the research note that deserves a wider audience, the personal narrative that connects people across different lives.</p>
+        <p>We believe the written word — careful, considered, revised — is one of the most powerful tools for understanding the world and our place in it. Inkwell is the infrastructure for that work.</p>
+        <div class="check-list">
+          <div class="check-item"><div class="check-dot">✓</div><span class="txt">Free to publish and read, always</span></div>
+          <div class="check-item"><div class="check-dot">✓</div><span class="txt">No algorithm deciding who sees your work</span></div>
+          <div class="check-item"><div class="check-dot">✓</div><span class="txt">AI assistance to help you write better</span></div>
+          <div class="check-item"><div class="check-dot">✓</div><span class="txt">A community of readers who value depth</span></div>
+        </div>
+      </div>
+      <div class="about-visual">
+        <div class="mock-card">
+          <div class="mock-dots"><span style="background:#FF5F57;"></span><span style="background:#FEBC2E;"></span><span style="background:#28C840;"></span><span style="color:var(--text-light);font-size:.75rem;margin-left:.5rem;font-family:monospace;">essay.md</span></div>
+          <div class="mock-line" style="width:90%;height:10px;"></div>
+          <div class="mock-line" style="width:70%;height:8px;opacity:.6;"></div>
+          <div style="height:12px;margin-bottom:.5rem;"></div>
+          <div class="mock-line" style="width:100%;height:7px;opacity:.4;"></div>
+          <div class="mock-line" style="width:85%;height:7px;opacity:.4;"></div>
+          <div class="mock-line" style="width:60%;height:7px;opacity:.4;"></div>
+          <div style="height:10px;margin-bottom:.5rem;"></div>
+          <div class="mock-line" style="width:50%;height:9px;opacity:.7;"></div>
+          <div class="mock-line" style="width:100%;height:7px;opacity:.35;"></div>
+          <div class="mock-line" style="width:90%;height:7px;opacity:.35;"></div>
+          <div class="mock-line" style="width:75%;height:7px;opacity:.35;"></div>
+          <div class="mock-publish"><span>Publish →</span></div>
+        </div>
+        <div class="float-card-1">
+          <div style="font-size:.68rem;color:var(--text-light);letter-spacing:.05em;text-transform:uppercase;font-weight:700;margin-bottom:.5rem;">Live Readers</div>
+          <div class="serif" style="font-size:1.6rem;font-weight:700;">2,841</div>
+          <div style="display:flex;align-items:center;gap:.3rem;margin-top:.25rem;"><span style="color:#22C55E;font-size:.72rem;">↑ 12%</span><span style="color:var(--text-light);font-size:.72rem;">this week</span></div>
+        </div>
+        <div class="float-card-2">
+          <div style="font-size:.68rem;color:var(--accent-gold);font-weight:700;letter-spacing:.05em;text-transform:uppercase;margin-bottom:.3rem;">Top Category</div>
+          <div style="color:var(--text-sub);font-size:.88rem;font-weight:700;">🧠 Science & Research</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-pad" style="background:var(--bg-alt);">
+    <div class="section-wrap">
+      <div style="text-align:center;margin-bottom:3rem;">
+        <div class="eyebrow blue">Platform Features</div>
+        <h2 class="section-h2">Everything a serious writer needs</h2>
+        <p style="color:var(--text-muted);font-size:1rem;max-width:460px;margin:0 auto;line-height:1.7;font-weight:300;">Designed around the craft of writing, not the mechanics of growth hacking.</p>
+      </div>
+      <div class="features-grid" id="featuresGrid"></div>
+    </div>
+  </section>
+
+  <section class="section-pad">
+    <div class="section-wrap" style="text-align:center;">
+      <h2 class="section-h2">Explore every domain of thought</h2>
+      <p style="color:var(--text-muted);font-size:1rem;margin-bottom:2.5rem;font-weight:300;">From first-person narratives to peer-level research notes.</p>
+      <div class="cat-pills" id="catPills"></div>
+    </div>
+  </section>
+
+  <section class="cta-section">
+    <div class="cta-inner">
+      <h2>Your ideas deserve<br><em>a permanent home.</em></h2>
+      <p>Join thousands of writers who have found their audience on Inkwell. Start writing today — no account required to publish your first story.</p>
+      <button class="cta-btn" onclick="enterApp()">Begin Writing →</button>
+    </div>
+  </section>
+
+  <footer class="site-footer">
+    <div class="brand serif">Inkwell</div>
+    <p>A platform for thoughtful writing. Free, open, and reader-first.</p>
+    <div class="footer-links">
+      <span>About</span><span>Privacy</span><span>Terms</span><span>Contact</span><span>RSS</span>
+    </div>
+  </footer>
+</div>
+
+<!-- ============ APP ============ -->
+<div data-page="app">
+  <nav class="app-nav">
+    <button class="brand" onclick="goLanding()">Inkwell</button>
+    <div class="app-nav-tabs">
+      <button class="app-tab" id="tabHome" onclick="setView('home')">Stories</button>
+      <button class="app-tab" id="tabWrite" onclick="startWrite()">Write</button>
+      <button class="icon-toggle" id="appThemeBtn" onclick="toggleTheme()"></button>
+    </div>
+  </nav>
+
+  <div data-view="home" id="homeView"></div>
+  <div data-view="article" id="articleView"></div>
+  <div data-view="write" id="writeView"></div>
+
+  <footer class="app-footer">
+    <span class="brand-word">Inkwell</span> · A platform for thoughtful writing ·
+    <span style="color:var(--accent);">Free, open, and reader-first.</span>
+  </footer>
+</div>
+
+<script>
+/* ============================================================
+   Inkwell — standalone vanilla JS build (no React, no build step)
+   Persists articles + theme + API key via localStorage so it
+   works as a static site on GitHub Pages.
+============================================================ */
+
+const LS_ARTICLES = "inkwell_articles_v1";
+const LS_THEME = "inkwell_theme_v1";
+const LS_APIKEY = "inkwell_api_key_v1";
+
+const FEATURES = [
+  { icon:"✦", title:"Write Without Limits", desc:"A distraction-free editor built for long-form thinking. Format with Markdown, structure with headings, and publish in minutes." },
+  { icon:"◈", title:"AI Writing Companion", desc:"Stuck on a paragraph? Your built-in writing assistant helps you brainstorm, refine, and elevate your writing in real time." },
+  { icon:"◉", title:"Live for Everyone", desc:"Every story you publish is immediately visible to all readers — no algorithms, no gatekeeping. Your words, the world." },
+  { icon:"⬡", title:"Light & Dark Mode", desc:"Read and write in your preferred environment. Inkwell adapts to your eyes, whether it's 7am sunlight or midnight focus." },
+  { icon:"◇", title:"Beautiful Typography", desc:"Every article renders in editorial-grade typography — the same care a print magazine gives to layout, applied to the web." },
+  { icon:"✧", title:"Discover Ideas", desc:"Browse by category, tag, or trending topic. Surface the essays, findings, and stories that expand how you think." },
+];
+
+const CATEGORIES = [
+  ["🧠","Science & Research"], ["✍️","Essays & Opinion"], ["🌍","Travel & Culture"],
+  ["💼","Business & Career"], ["🎨","Arts & Creativity"], ["🏥","Health & Wellness"],
+  ["📚","Books & Literature"], ["💻","Technology"], ["🌿","Environment"],
+  ["🧭","Personal Growth"], ["🔬","Academic Findings"], ["🗣️","Society & Politics"],
+];
+
+const CATS_SELECT = ["Essays & Opinion","Science & Research","Travel & Culture","Business & Career","Arts & Creativity","Health & Wellness","Technology","Personal Growth","Academic Findings","Society & Politics"];
+
+const TAG_FILTERS = ["All","Essays & Opinion","Science & Research","Technology","Travel & Culture","Personal Growth","Health & Wellness"];
+
+const SEED_ARTICLES = [
+  {
+    id:"s1",
+    title:"The Art of Deep Work: Reclaiming Focus in a Distracted World",
+    subtitle:"How the most productive minds of our era protect their attention — and what we can learn from their methods.",
+    content:`In 1985, the mathematician Andrew Wiles withdrew from the academic world. Not because he had failed, but because he was about to attempt something so audacious that he couldn't afford to be interrupted. For seven years, he worked in secret on Fermat's Last Theorem — a problem unsolved for 358 years.
+
+He succeeded.
+
+What Wiles understood intuitively, and what cognitive scientists have since confirmed, is that certain kinds of thinking require more than intelligence. They require an environment, internal and external, that permits sustained, uninterrupted engagement. They require what is often called *deep work*.
+
+## The Attention Economy's Hidden Cost
+
+We live in an era explicitly designed to fragment our attention. The average knowledge worker, studies show, switches tasks every three minutes. Email, messaging applications, social feeds, all optimized not for our productivity, but for our engagement.
+
+The cost is invisible and cumulative. Every interruption doesn't just cost the time of the interruption itself. It costs the recovery time: the ten to twenty minutes required to return to the same cognitive depth. Multiply that across a typical workday and the arithmetic is sobering.
+
+## Reclaiming the Deep Hours
+
+The strategies vary, but the pattern among prolific thinkers is consistent. Some writers wake before dawn and work for hours before the world has a chance to claim them. Others take long solitary walks, no companions, no conversation, only the steady rhythm of footsteps and thought.
+
+The common element isn't the specific practice. It's the intention behind it: a deliberate protection of cognitive resources for the work that matters most.
+
+This is not about becoming a hermit. It is about recognizing that attention is a finite resource, that its allocation is a choice, and that the work we most want to produce will only emerge if we create the conditions for it.
+
+## A Practical Architecture
+
+Begin with the question: what is the work that only I can do?
+
+Not the urgent work. Not the responsive work. The work that, if done well, would make everything else less necessary.
+
+Protect time for that work first. Schedule it before you open your email. Treat it with the seriousness you would treat a meeting with the most important person in your professional life.
+
+Because, in a real sense, that is precisely what it is.`,
+    author:"Eleanor Marsh", authorInitial:"E", category:"Productivity",
+    date:"Feb 22, 2026", readTime:"6 min", tags:["focus","productivity","deep work"],
+    likes:3240, views:48200, featured:true,
+  },
+  {
+    id:"s2",
+    title:"Why Curiosity is the Most Underrated Professional Skill",
+    subtitle:"Organizations invest heavily in expertise. The evidence suggests they may be optimizing for the wrong thing.",
+    content:`Ask most hiring managers what they look for and you'll hear a familiar litany: experience, domain knowledge, demonstrated results. These are sensible criteria. They are also, according to a growing body of research, incomplete.
+
+The trait that most reliably predicts both individual performance and organizational adaptability turns out to be something far harder to measure on a resume: intellectual curiosity.
+
+## What the Research Shows
+
+A 2020 meta-analysis of 200 studies found that curiosity predicted academic performance nearly as well as intelligence. More significantly, it predicted performance on novel tasks, the kind that require adapting rather than applying, more reliably than expertise alone.
+
+The mechanism is not mysterious. Curious people ask better questions. They seek disconfirming evidence. They are less attached to their existing mental models and therefore more capable of updating them. In environments where yesterday's solutions don't solve today's problems, this is an enormous advantage.
+
+## The Expert Trap
+
+Expertise, paradoxically, can become a liability. The neurological phenomenon of functional fixedness, the tendency to see tools only in terms of their familiar uses, is more pronounced in experts than in novices. The person who knows the most about how something has always been done is often the last to see how it might be done differently.
+
+This is not an argument against expertise. Deep knowledge matters. But it matters most when combined with the willingness to question its own foundations.
+
+## Cultivating the Habit
+
+Curiosity is not purely innate. It can be cultivated, and its cultivation is straightforward if not easy.
+
+Ask one more question than you think you need to. Spend time with people whose domains are adjacent to yours but not identical. Read outside your field. Approach expertise not as a destination but as a current position from which further exploration is always possible.
+
+The most interesting thinkers share a quality that initially seems like a personality trait but turns out to be a practice: they are genuinely, visibly delighted by things they don't yet understand.
+
+That delight is the engine of everything.`,
+    author:"Dr. Nadia Osei", authorInitial:"N", category:"Leadership",
+    date:"Feb 21, 2026", readTime:"5 min", tags:["curiosity","leadership","learning"],
+    likes:1870, views:29400, featured:false,
+  },
+  {
+    id:"s3",
+    title:"Notes from the Field: What Six Months in Southeast Asia Taught Me About Simplicity",
+    subtitle:"A travel journal that became something else entirely.",
+    content:`I left with two bags and came back with one. Not because I lost luggage, but because somewhere along the way, I stopped needing the weight.
+
+This is the kind of observation that sounds like a metaphor but is also just literally true.
+
+## The First Weeks
+
+The first weeks were an education in discomfort. Not dramatic discomfort, I was never in danger, never truly cold or hungry. But the texture of daily life was unfamiliar in ways that accumulated: the bureaucracy of transportation, the adjustment to heat, the challenge of communicating across a language barrier without the shorthand I didn't know I relied upon.
+
+What I noticed, about three weeks in, was that I had stopped checking certain things. My home country's news cycle had become genuinely unimportant to me, not because I had decided it was, but because I simply had less cognitive bandwidth for it, and it turned out that its absence made no meaningful difference to my days.
+
+## What Simplicity Actually Means
+
+We use simplicity as a shorthand for minimalism, fewer possessions, cleaner spaces. But the simplicity I found was different. It was about the narrowing of the decision space.
+
+When your options for dinner are the three restaurants visible from your guesthouse, you eat dinner without the low-grade anxiety of infinite choice. When your accommodation decision is binary, this one or the next town, you make it quickly and move on. The absence of optionality, which I had always associated with constraint, turned out to feel like liberation.
+
+## Coming Back
+
+The return home was the harder journey. I remember standing in a grocery store, confronted with dozens of varieties of breakfast cereal, and feeling a fatigue so disproportionate to the decision that it seemed almost comical.
+
+I kept one bag in active rotation for months. I still plan travel differently now, fewer days in each place, more walking, less itinerary.
+
+The things I came back to feeling most grateful for were not the things I had expected. Not comfort, not familiarity, not speed. What I had missed, I found, was conversation. Long, unhurried, curious conversation.
+
+Everything else, it turned out, had been fine without me.`,
+    author:"Lucas Ferreira", authorInitial:"L", category:"Travel",
+    date:"Feb 19, 2026", readTime:"7 min", tags:["travel","simplicity","reflection"],
+    likes:2105, views:31600, featured:false,
+  },
+];
+
+/* ---------------- state ---------------- */
+let state = {
+  dm: false,
+  page: "landing",
+  view: "home",
+  articles: [],
+  selected: null,
+  editing: null,
+  search: "",
+  activeTag: "All",
+  likedIds: new Set(),
+};
+
+/* ---------------- storage helpers ---------------- */
+function loadArticles(){
+  try{
+    const raw = localStorage.getItem(LS_ARTICLES);
+    if(raw){ state.articles = JSON.parse(raw); return; }
+  }catch(e){}
+  state.articles = JSON.parse(JSON.stringify(SEED_ARTICLES));
+  saveArticles();
+}
+function saveArticles(){ localStorage.setItem(LS_ARTICLES, JSON.stringify(state.articles)); }
+function getApiKey(){ return localStorage.getItem(LS_APIKEY) || ""; }
+function setApiKey(k){ if(k) localStorage.setItem(LS_APIKEY, k); else localStorage.removeItem(LS_APIKEY); }
+
+function estimateReadTime(content){ return `${Math.max(1, Math.ceil(content.trim().split(/\s+/).filter(Boolean).length / 200))} min`; }
+function generateId(){ return `a-${Date.now()}-${Math.random().toString(36).slice(2,6)}`; }
+function escapeHtml(str){ return String(str).replace(/[&<>"']/g, c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c])); }
+
+function toast(msg){
+  const el = document.getElementById("toast");
+  el.textContent = msg;
+  el.classList.add("show");
+  clearTimeout(window.__toastTimer);
+  window.__toastTimer = setTimeout(()=>el.classList.remove("show"), 2400);
+}
+
+/* ---------------- theme ---------------- */
+function applyTheme(){
+  document.documentElement.setAttribute("data-theme", state.dm ? "dark" : "light");
+  const icon = state.dm ? "☀️" : "🌙";
+  const a = document.getElementById("landingThemeBtn"); if(a) a.textContent = icon;
+  const b = document.getElementById("appThemeBtn"); if(b) b.textContent = icon;
+}
+function toggleTheme(){
+  state.dm = !state.dm;
+  localStorage.setItem(LS_THEME, state.dm ? "dark" : "light");
+  applyTheme();
+}
+
+/* ---------------- navigation ---------------- */
+function goLanding(){
+  state.page = "landing";
+  document.querySelectorAll("[data-page]").forEach(el=>el.classList.remove("active"));
+  document.querySelector('[data-page="landing"]').classList.add("active");
+  window.scrollTo({top:0, behavior:"instant"});
+}
+function enterApp(){
+  state.page = "app";
+  document.querySelectorAll("[data-page]").forEach(el=>el.classList.remove("active"));
+  document.querySelector('[data-page="app"]').classList.add("active");
+  setView("home");
+}
+function startWrite(){ state.editing = null; setView("write"); }
+function setView(view){
+  state.view = view;
+  document.querySelectorAll("[data-view]").forEach(el=>el.classList.remove("active"));
+  document.querySelector(`[data-view="${view}"]`).classList.add("active");
+  document.getElementById("tabHome").classList.toggle("active", view==="home");
+  document.getElementById("tabWrite").classList.toggle("active", view==="write");
+  if(view==="home") renderHome();
+  if(view==="article") renderArticle();
+  if(view==="write") renderWrite();
+  window.scrollTo({top:0, behavior:"instant"});
+}
+function openArticle(id){
+  state.selected = state.articles.find(a=>a.id===id) || null;
+  setView("article");
+}
+
+/* ---------------- landing static content ---------------- */
+document.getElementById("featuresGrid").innerHTML = FEATURES.map(f=>`
+  <div class="feature-card">
+    <div class="feature-icon">${f.icon}</div>
+    <h3>${f.title}</h3>
+    <p>${f.desc}</p>
+  </div>
+`).join("");
+
+document.getElementById("catPills").innerHTML = CATEGORIES.map(([icon,label])=>`
+  <button class="cat-pill" onclick="enterApp()"><span>${icon}</span><span>${label}</span></button>
+`).join("");
+
+(function seedHeroDots(){
+  const wrap = document.getElementById("heroDots");
+  for(let i=0;i<6;i++){
+    const d = document.createElement("div");
+    d.className = "hero-dot float";
+    d.style.top = `${20+i*12}%`;
+    d.style.left = `${5+i*15}%`;
+    d.style.animationDelay = `${i*0.3}s`;
+    d.style.animationDuration = `${3+i*0.4}s`;
+    wrap.appendChild(d);
+  }
+})();
+
+/* ---------------- HOME VIEW ---------------- */
+function filteredArticles(){
+  return state.articles.filter(a=>{
+    const matchTag = state.activeTag==="All" || a.category===state.activeTag || (a.tags||[]).includes(state.activeTag.toLowerCase());
+    const s = state.search.toLowerCase();
+    const matchSearch = !s || a.title.toLowerCase().includes(s) || (a.author||"").toLowerCase().includes(s);
+    return matchTag && matchSearch;
+  });
+}
+
+function renderHome(){
+  const filtered = filteredArticles();
+  const featured = filtered.find(a=>a.featured) || filtered[0];
+  const rest = filtered.filter(a=>a.id !== featured?.id);
+
+  document.getElementById("homeView").innerHTML = `
+    <div class="home-wrap">
+      <div class="search-row">
+        <div class="search-box">
+          <span class="ico">🔍</span>
+          <input class="search-input" id="searchInput" placeholder="Search stories..." value="${escapeHtml(state.search)}">
+        </div>
+      </div>
+      <div class="tag-row">
+        ${TAG_FILTERS.map(tag=>`<button class="tag-chip ${state.activeTag===tag?'active':''}" onclick="setActiveTag('${escapeHtml(tag)}')">${tag}</button>`).join("")}
+      </div>
+      <div class="home-grid">
+        <main class="home-main" id="mainList"></main>
+        <aside class="home-aside">
+          <div class="aside-sticky">
+            <div class="side-card">
+              <h3>What is Inkwell?</h3>
+              <p>An open platform for writers, researchers, and thinkers. Publish essays, share findings, document journeys, and reach readers who care about ideas.</p>
+              <button class="side-btn" onclick="startWrite()">Start Writing →</button>
+            </div>
+            <div class="side-card">
+              <h3 class="plain">Writing Principles</h3>
+              ${["Be clear and specific","Cite your sources","Respect others' perspectives","Revise before publishing","Write for your reader"].map(p=>`
+                <div class="principle-row"><span class="arrow">→</span><span>${p}</span></div>
+              `).join("")}
+            </div>
+            <div class="side-card">
+              <h3 class="plain">Trending Topics</h3>
+              <div class="trend-tags">
+                ${["deep work","AI & society","field research","travel essays","productivity","mental health","book reviews","tech ethics"].map(t=>`<span class="trend-tag" onclick="quickSearchTag('${t}')">${t}</span>`).join("")}
+              </div>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </div>
+  `;
+
+  const mainList = document.getElementById("mainList");
+  let html = "";
+  if(featured){
+    html += `
+      <div class="featured-card" onclick="openArticle('${featured.id}')">
+        <div class="featured-glow"></div>
+        <div class="eyebrow gold" style="margin-bottom:1rem;">✦ Featured</div>
+        <h2>${escapeHtml(featured.title)}</h2>
+        <p class="sub">${escapeHtml(featured.subtitle||"")}</p>
+        <div class="featured-meta">
+          <div class="avatar" style="width:28px;height:28px;font-size:.75rem;">${escapeHtml(featured.authorInitial||"?")}</div>
+          <span style="color:var(--text-sub);font-size:.875rem;font-weight:700;">${escapeHtml(featured.author||"Anonymous")}</span>
+          <span style="color:var(--text-light);font-size:.8rem;">· ${featured.readTime||estimateReadTime(featured.content)} read</span>
+        </div>
+      </div>
+    `;
+  }
+  if(rest.length){
+    html += rest.map(a=>articleCardHtml(a)).join("");
+  }
+  if(!filtered.length){
+    html += `<div class="empty-state"><div class="glyph">✦</div><p class="t1">No stories found</p><p style="font-size:.9rem;font-weight:300;">Be the first to write one.</p></div>`;
+  }
+  mainList.innerHTML = html;
+
+  const searchInput = document.getElementById("searchInput");
+  searchInput.addEventListener("input", e=>{ state.search = e.target.value; renderHomeListOnly(); });
+}
+
+function renderHomeListOnly(){
+  const filtered = filteredArticles();
+  const featured = filtered.find(a=>a.featured) || filtered[0];
+  const rest = filtered.filter(a=>a.id !== featured?.id);
+  let html = "";
+  if(featured){
+    html += `
+      <div class="featured-card" onclick="openArticle('${featured.id}')">
+        <div class="featured-glow"></div>
+        <div class="eyebrow gold" style="margin-bottom:1rem;">✦ Featured</div>
+        <h2>${escapeHtml(featured.title)}</h2>
+        <p class="sub">${escapeHtml(featured.subtitle||"")}</p>
+        <div class="featured-meta">
+          <div class="avatar" style="width:28px;height:28px;font-size:.75rem;">${escapeHtml(featured.authorInitial||"?")}</div>
+          <span style="color:var(--text-sub);font-size:.875rem;font-weight:700;">${escapeHtml(featured.author||"Anonymous")}</span>
+          <span style="color:var(--text-light);font-size:.8rem;">· ${featured.readTime||estimateReadTime(featured.content)} read</span>
+        </div>
+      </div>
+    `;
+  }
+  if(rest.length) html += rest.map(a=>articleCardHtml(a)).join("");
+  if(!filtered.length) html += `<div class="empty-state"><div class="glyph">✦</div><p class="t1">No stories found</p><p style="font-size:.9rem;font-weight:300;">Be the first to write one.</p></div>`;
+  document.getElementById("mainList").innerHTML = html;
+}
+
+function articleCardHtml(a){
+  const liked = state.likedIds.has(a.id);
+  return `
+    <article class="article-card">
+      <div style="cursor:pointer;" onclick="openArticle('${a.id}')">
+        <div class="meta-row">
+          <div class="avatar" style="width:30px;height:30px;font-size:.8rem;">${escapeHtml(a.authorInitial||"?")}</div>
+          <span style="color:var(--text-sub);font-size:.875rem;font-weight:700;">${escapeHtml(a.author||"Anonymous")}</span>
+          <span style="color:var(--text-light);font-size:.8rem;">·</span>
+          <span style="color:var(--text-light);font-size:.8rem;">${escapeHtml(a.date||"")}</span>
+          ${a.category ? `<span style="color:var(--text-light);font-size:.8rem;">·</span><span style="color:var(--accent);font-size:.8rem;font-weight:700;">${escapeHtml(a.category)}</span>` : ""}
+        </div>
+        <h2>${escapeHtml(a.title)}</h2>
+        ${a.subtitle ? `<p class="sub">${escapeHtml(a.subtitle)}</p>` : ""}
+        <div class="tag-list">
+          ${(a.tags||[]).slice(0,3).map(t=>`<span class="small-tag">${escapeHtml(t)}</span>`).join("")}
+          <span style="color:var(--text-light);font-size:.775rem;margin-left:auto;">${a.readTime||estimateReadTime(a.content)} read</span>
+        </div>
+      </div>
+      <div class="card-footer">
+        <button class="like-btn ${liked?'liked':''}" onclick="event.stopPropagation();toggleLike('${a.id}')">
+          <span>${liked?'♥':'♡'}</span><span>${(a.likes||0)+(liked?1:0)}</span>
+        </button>
+        <span class="views-lbl">👁 ${(a.views||0).toLocaleString()}</span>
+        <button class="read-link" onclick="event.stopPropagation();openArticle('${a.id}')">Read article →</button>
+      </div>
+    </article>
+  `;
+}
+
+function setActiveTag(tag){ state.activeTag = tag; renderHomeListOnly(); document.querySelectorAll(".tag-chip").forEach(c=>c.classList.toggle("active", c.textContent.trim()===tag)); }
+function quickSearchTag(tag){ state.search = tag; renderHome(); }
+function toggleLike(id){
+  if(state.likedIds.has(id)) state.likedIds.delete(id); else state.likedIds.add(id);
+  renderHomeListOnly();
+}
+
+/* ---------------- ARTICLE VIEW ---------------- */
+function renderContentBlocks(content){
+  return content.split(/\n\n+/).map(block=>{
+    if(block.startsWith("## ")) return `<h2 class="article-h2">${escapeHtml(block.slice(3))}</h2>`;
+    if(block.startsWith("# ")) return `<h1 class="article-h1">${escapeHtml(block.slice(2))}</h1>`;
+    const parts = block.split(/(\*[^*]+\*)/g).map(p=>{
+      if(p.startsWith("*") && p.endsWith("*") && p.length>1) return `<em>${escapeHtml(p.slice(1,-1))}</em>`;
+      return escapeHtml(p);
+    }).join("");
+    return `<p class="article-p">${parts}</p>`;
+  }).join("");
+}
+
+function renderArticle(){
+  const a = state.selected;
+  if(!a){ setView("home"); return; }
+  const liked = state.likedIds.has(a.id);
+  document.getElementById("articleView").innerHTML = `
+    <div class="article-wrap">
+      <button class="back-btn" onclick="setView('home')">← All Stories</button>
+      ${a.category ? `<div class="eyebrow blue">${escapeHtml(a.category)}</div>` : ""}
+      <h1 class="article-title">${escapeHtml(a.title)}</h1>
+      ${a.subtitle ? `<p class="article-sub">${escapeHtml(a.subtitle)}</p>` : ""}
+      <div class="author-row">
+        <div class="avatar" style="width:48px;height:48px;font-size:1.1rem;">${escapeHtml(a.authorInitial||"?")}</div>
+        <div>
+          <div class="author-name">${escapeHtml(a.author||"Anonymous")}</div>
+          <div class="author-meta">${escapeHtml(a.date||"")} · ${a.readTime||estimateReadTime(a.content)} read</div>
+        </div>
+        <div style="margin-left:auto;">
+          <button class="like-pill ${liked?'liked':''}" onclick="toggleLikeArticle('${a.id}')">
+            <span>${liked?'♥':'♡'}</span><span>${(a.likes||0)+(liked?1:0)}</span>
+          </button>
+        </div>
+      </div>
+      <div>${renderContentBlocks(a.content)}</div>
+      ${(a.tags||[]).length ? `<div class="article-tags">${a.tags.map(t=>`<span>${escapeHtml(t)}</span>`).join("")}</div>` : ""}
+      <div class="cta-box">
+        <h3>Have something to say?</h3>
+        <p>Publish your own essay, research, or story on Inkwell — free, forever.</p>
+        <button onclick="startWrite()">Start Writing →</button>
+      </div>
+    </div>
+  `;
+}
+function toggleLikeArticle(id){ toggleLike(id); renderArticle(); }
+
+/* ---------------- WRITE VIEW ---------------- */
+let writeDraft = { title:"", subtitle:"", content:"", tags:"", author:"", category:"" };
+let writeUiState = { showAI:false, aiPrompt:"", aiLoading:false, publishing:false, error:"", success:"" };
+
+function renderWrite(){
+  const e = state.editing;
+  writeDraft = {
+    title: e?.title || "", subtitle: e?.subtitle || "", content: e?.content || "",
+    tags: (e?.tags||[]).join(", "), author: e?.author || "", category: e?.category || "",
+  };
+  writeUiState = { showAI:false, aiPrompt:"", aiLoading:false, publishing:false, error:"", success:"" };
+  paintWrite();
+}
+
+function paintWrite(){
+  const d = writeDraft, u = writeUiState;
+  const wordCount = d.content.trim().split(/\s+/).filter(Boolean).length;
+  document.getElementById("writeView").innerHTML = `
+    <div class="write-wrap">
+      <div class="write-header">
+        <h1>${state.editing ? "Edit your story" : "Write your story"}</h1>
+        <p>Share your ideas with the world. Clear, thoughtful writing finds its readers.</p>
+      </div>
+      <div class="write-tip"><span>✦</span><span>Use <code>## Heading</code> for sections and <code>*italic text*</code> for emphasis</span></div>
+
+      <input class="field-input field-author" id="wAuthor" placeholder="Your name or pen name" value="${escapeHtml(d.author)}">
+
+      <select class="field-input field-select" id="wCategory">
+        <option value="" ${!d.category?'selected':''} disabled>Select a category...</option>
+        ${CATS_SELECT.map(c=>`<option value="${escapeHtml(c)}" ${d.category===c?'selected':''}>${c}</option>`).join("")}
+      </select>
+
+      <input class="field-input field-title" id="wTitle" placeholder="Title of your story" value="${escapeHtml(d.title)}">
+
+      <input class="field-input field-sub" id="wSubtitle" placeholder="Add a subtitle or brief description (optional)" value="${escapeHtml(d.subtitle)}">
+
+      <textarea class="field-input field-textarea" id="wContent" placeholder="Write your story here. New paragraphs are separated by a blank line.
+
+Use ## for headings, *text* for italics." rows="18">${escapeHtml(d.content)}</textarea>
+
+      <input class="field-input field-tags" id="wTags" placeholder="Tags: productivity, research, travel (comma-separated)" value="${escapeHtml(d.tags)}">
+
+      ${u.error ? `<div class="error-box">${escapeHtml(u.error)}</div>` : ""}
+      ${u.success ? `<div class="success-box">${escapeHtml(u.success)}</div>` : ""}
+
+      <div style="margin-bottom:2rem;">
+        <button class="ai-toggle ${u.showAI?'open':''}" onclick="toggleAIPanel()">✦ AI Writing Coach ${u.showAI?'▲':'▼'}</button>
+        ${u.showAI ? `
+          <div class="ai-panel">
+            <p>Ask for feedback, continuation ideas, structural advice, or help with phrasing.</p>
+            <div class="ai-row">
+              <input class="ai-input" id="aiPromptInput" placeholder="e.g. How can I make my introduction stronger?" value="${escapeHtml(u.aiPrompt)}">
+              <button class="ai-ask-btn" onclick="handleAI()" ${u.aiLoading?'disabled':''}>${u.aiLoading?'...':'Ask'}</button>
+            </div>
+            <div style="margin-top:.75rem;font-size:.72rem;color:var(--text-light);">${getApiKey() ? "Using your saved API key." : "No API key saved — using built-in offline suggestions."} <button onclick="promptApiKey()" style="background:none;border:none;color:var(--accent);cursor:pointer;font-size:.72rem;font-weight:700;padding:0;">${getApiKey()?'Change key':'Add API key'}</button></div>
+          </div>
+        ` : ""}
+      </div>
+
+      <div class="write-actions">
+        <div class="word-count">${wordCount.toLocaleString()} words · ~${estimateReadTime(d.content)} read</div>
+        <button class="publish-btn" onclick="handlePublish()" ${u.publishing?'disabled':''}>${u.publishing ? "Publishing..." : (state.editing ? "Update Story" : "Publish Story")}</button>
+      </div>
+    </div>
+  `;
+
+  ["wAuthor","wTitle","wSubtitle","wContent","wTags"].forEach(id=>{
+    const el = document.getElementById(id);
+    el.addEventListener("input", ()=>{
+      const map = {wAuthor:"author", wTitle:"title", wSubtitle:"subtitle", wContent:"content", wTags:"tags"};
+      writeDraft[map[id]] = el.value;
+      if(id==="wContent" || id==="wTitle"){
+        const wc = document.querySelector(".word-count");
+        if(wc) wc.textContent = `${writeDraft.content.trim().split(/\s+/).filter(Boolean).length.toLocaleString()} words · ~${estimateReadTime(writeDraft.content)} read`;
+      }
+    });
+  });
+  document.getElementById("wCategory").addEventListener("change", e=>{ writeDraft.category = e.target.value; });
+  const aiInput = document.getElementById("aiPromptInput");
+  if(aiInput){
+    aiInput.addEventListener("input", e=>{ writeUiState.aiPrompt = e.target.value; });
+    aiInput.addEventListener("keydown", e=>{ if(e.key==="Enter") handleAI(); });
+  }
+}
+
+function toggleAIPanel(){ writeUiState.showAI = !writeUiState.showAI; paintWrite(); }
+
+function promptApiKey(){
+  const current = getApiKey();
+  const key = prompt("Paste your Anthropic API key to power live AI writing feedback.\nLeave blank and press OK to remove a saved key.\n\nWithout a key, the coach uses built-in offline suggestions.", current);
+  if(key===null) return;
+  setApiKey(key.trim());
+  toast(key.trim() ? "API key saved" : "API key removed");
+  paintWrite();
+}
+
+async function handleAI(){
+  const prompt_ = writeUiState.aiPrompt.trim();
+  if(!prompt_ || writeUiState.aiLoading) return;
+  writeUiState.aiLoading = true; paintWrite();
+
+  let suggestion;
+  const apiKey = getApiKey();
+  if(apiKey){
+    try{
+      const res = await fetch("https://api.anthropic.com/v1/messages", {
+        method:"POST",
+        headers:{
+          "Content-Type":"application/json",
+          "x-api-key": apiKey,
+          "anthropic-version":"2023-06-01",
+          "anthropic-dangerous-direct-browser-access":"true",
+        },
+        body: JSON.stringify({
+          model:"claude-sonnet-4-5",
+          max_tokens:700,
+          messages:[{
+            role:"user",
+            content:`You are a thoughtful writing coach for an editorial platform. Help the writer improve their work. Be specific, constructive, and literary.\n\nTitle: ${writeDraft.title}\nContent so far:\n${writeDraft.content}\n\nWriter's request: ${prompt_}\n\nProvide clear, useful writing guidance.`
+          }],
+        }),
+      });
+      if(!res.ok) throw new Error("api error");
+      const data = await res.json();
+      suggestion = (data.content && data.content.find(b=>b.type==="text")?.text) || offlineWritingTip(prompt_);
+    }catch(e){
+      suggestion = offlineWritingTip(prompt_) + "\n\n(Live API call failed, showing an offline tip instead.)";
+    }
+  } else {
+    await new Promise(r=>setTimeout(r, 450));
+    suggestion = offlineWritingTip(prompt_);
+  }
+
+  writeDraft.content = writeDraft.content + "\n\n---\n✦ AI Suggestion\n" + suggestion + "\n---";
+  writeUiState.aiPrompt = ""; writeUiState.showAI = false; writeUiState.aiLoading = false;
+  paintWrite();
+}
+
+function offlineWritingTip(prompt_){
+  const p = prompt_.toLowerCase();
+  if(p.includes("introduction") || p.includes("opening") || p.includes("hook")){
+    return "Open with a concrete moment rather than an abstract claim, a scene, a specific number, a quoted line. Readers commit to an essay in the first two sentences; give them something to picture before you explain what it means.";
+  }
+  if(p.includes("ending") || p.includes("conclusion")){
+    return "Resist summarizing what you already said. Instead, extend the idea one step further, what does it imply now, or return to your opening image with new meaning attached.";
+  }
+  if(p.includes("structure") || p.includes("organi")){
+    return "Try structuring around a clear arc: a concrete opening, a section naming the real problem, a section with your core insight, and a short closing that reframes rather than repeats. Use headings to mark each turn.";
+  }
+  if(p.includes("shorter") || p.includes("tighten") || p.includes("concise")){
+    return "Cut sentences that restate a point you already made. Look for paragraphs that open with a topic sentence and then just illustrate it twice, one illustration is usually enough.";
+  }
+  return "Read your draft aloud. Where you stumble is usually where a sentence is doing two jobs at once, split it in two. Also check that each paragraph earns its place: if you could delete it and lose nothing, it probably should go.";
+}
+
+async function handlePublish(){
+  const d = writeDraft;
+  if(!d.title.trim() || !d.content.trim()){ writeUiState.error = "Please add a title and content."; paintWrite(); return; }
+  writeUiState.publishing = true; writeUiState.error = ""; paintWrite();
+
+  const article = {
+    id: state.editing?.id || generateId(),
+    title: d.title.trim(), subtitle: d.subtitle.trim(), content: d.content.trim(),
+    author: d.author.trim() || "Anonymous",
+    authorInitial: (d.author.trim() || "A")[0].toUpperCase(),
+    category: d.category || "Essays & Opinion",
+    date: new Date().toLocaleDateString("en-US", { month:"short", day:"numeric", year:"numeric" }),
+    readTime: estimateReadTime(d.content),
+    tags: d.tags.split(",").map(t=>t.trim()).filter(Boolean),
+    likes: state.editing?.likes || 0,
+    views: state.editing?.views ?? (Math.floor(Math.random()*200)+20),
+    featured: state.editing?.featured || false,
+  };
+
+  try{
+    state.articles = [article, ...state.articles.filter(a=>a.id !== article.id)];
+    saveArticles();
+    writeUiState.publishing = false; writeUiState.success = "Published successfully!";
+    state.selected = article;
+    toast("Story published");
+    setView("article");
+  }catch(e){
+    writeUiState.publishing = false; writeUiState.error = "Failed to publish. Please try again.";
+    paintWrite();
+  }
+}
+
+/* ---------------- boot ---------------- */
+(function boot(){
+  const savedTheme = localStorage.getItem(LS_THEME);
+  if(savedTheme){ state.dm = savedTheme === "dark"; }
+  else if(window.matchMedia?.("(prefers-color-scheme: dark)").matches){ state.dm = true; }
+  applyTheme();
+  loadArticles();
+  goLanding();
+})();
+</script>
+</body>
+</html>
