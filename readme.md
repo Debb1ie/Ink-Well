@@ -26,7 +26,7 @@ cd inkwell
 
 2. **Replace `src/App.tsx`** with the contents of `inkwell-platform.jsx`
 
-3. **Install dependencies:** (all standard React — no extra installs needed).
+3. **Install dependencies:** (all standard React — no extra installs needed)
 
 4. **Deploy to Vercel:**
 ```bash
@@ -34,7 +34,7 @@ npm install -g vercel
 vercel
 ```
 
-### Option 3: Vite + React (recommended for performance)
+### Option 3: Vite + React (recommended for performance).
 ```bash
 npm create vite@latest inkwell -- --template react
 cd inkwell
