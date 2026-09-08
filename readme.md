@@ -3,7 +3,6 @@
 A Medium-like platform for adult writers and readers. Features:
 -  Dark/Light mode (auto-detects system preference)
 -  
--  Age verification gate (18+)
    Rich writing editor with Markdown-like formatting.
    Clean reading experience.
    - I writing assistant (Claude-powered)
