@@ -1,5 +1,4 @@
-# Inkwell — Content Platform, soon to do
-
+# Inkwell — Content Platform,==
 A Medium-like platform for adult writers and readers. Features:
 -  Dark/Light mode (auto-detects system preference)
 -  
