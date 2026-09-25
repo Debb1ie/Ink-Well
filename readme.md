@@ -1,4 +1,4 @@
-# Inkwell — Content Platform
+# Inkwell — Content 
 
 A Medium-like platform for adult writers and readers. Features:
 -  Dark/Light mode (auto-detects system preference).
@@ -8,13 +8,13 @@ A Medium-like platform for adult writers and readers. Features:
    - I writing assistant (Claude-powered).
 
      
-   -  Shared articles — published by anyone, visible to all.
+   -  Shared articles — published by anyone, visible to all..
 
 ---
 
 ## Deploy to Vercel (5 minutes)!
 
-### Option 1: Use the `.jsx` directly in Claude.ai (Artifacts).
+### Option 1: Use the `.jsx` directly in Claude.ai (Artifacts)....
 Paste the `.jsx` file contents directly into a Claude artifact. Works immediately.
 
 ### Option 2: Full Vercel Deploy!
@@ -27,7 +27,7 @@ cd inkwell
 
 2. **Replace `src/App.tsx`** with the contents of `inkwell-platform.jsx`
 
-3. **Install dependencies:** (all standard React — no extra installs needed)
+3. **Install dependencies:** (all standard React — no extra installs needed).
 
 4. **Deploy to Vercel:**
 ```bash
