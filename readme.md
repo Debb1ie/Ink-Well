@@ -1,4 +1,4 @@
-# Inkwell — Content dgdsgsdg
+# Inkwell — Content 
 
 A Medium-like platform for adult writers and readers. Features
 -  Dark/Light mode (auto-detects system preference).
@@ -15,7 +15,7 @@ A Medium-like platform for adult writers and readers. Features
 ## Deploy to Vercel (5 minutes)!
 
 ### Option 1: Use the `.jsx` directly in Claude.ai (Artifacts)....
-Paste the `.jsx` file contents directly into a Claude artifact. 
+Paste the `.jsx` file contents directly into a Claude artifact 
 ### Option 2: Full Vercel Deploy!
 
 1. **Create a new React project:**
