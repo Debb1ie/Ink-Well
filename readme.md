@@ -1,11 +1,11 @@
-# Inkwell — Content 
+# Inkwell — Content
 
-A Medium-like platform for adult writers and readers. Features
+A Medium-like platform for adult writers and readers. 
 -  Dark/Light mode (auto-detects system preference).
 -  
-   Rich writing editor with Markdown-like formatting?
+   Rich writing editor with Markdown-like formatting
    Clean reading experience.
-   - I writing assistant (Claude-powered).
+   - I writing assistant (Claude-powered)
 .
      .
    -  Shared articles — published by anyone, visible to all.
